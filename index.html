@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>angular.unwatch.demo</title>
+	</head>
+	<body ng-app="app" ng-controller="myTestCntrl">
+		<h1>How to do $unwatch with AngularJS</h1>
+		<input type="button" ng-click="increaseCounter()" value="Click me"/><br/>
+		{{counterChangeText}}<br/>
+		<strong>Number of $$watchers in $scope:</strong> {{$$watchers.length}}
+		<script type="text/javascript" src="angular.1.2.16.min.js"></script>
+		<script type="text/javascript">
+		  angular.module('app', [])
+		    .controller('myTestCntrl', function myTestCntrl($scope) {
+		      $scope.counter = 0;
+		      $scope.increaseCounter = function () {
+		      	$scope.counter++;
+		      };
+		      var namedWatcher = $scope.$watch('counter', function () {
+		      	if ($scope.counter > 5) {
+					$scope.counterChangeText = 'Watching the \'counter\' stopped at the following time ' + new Date().toISOString();
+					namedWatcher();
+		      	} else {
+					$scope.counterChangeText = 'Button has been clicked ' + $scope.counter + ' times';
+		      	};
+		      });
+		    });
+		</script>
+	</body>
+</html>
